@@ -37,4 +37,8 @@ public interface DirectoryRepository extends Neo4jRepository<DirectoryNode, Long
             "DELETE d " +
             "RETURN true")
     Boolean deleteDirectoryById(@Param("id") Long id);
+
+    @Query("MATCH (n1)-[r]-(n2) " +
+            "DELETE r, n1, n2")
+    Boolean destroyFileSystem();
 }

@@ -18,9 +18,10 @@ public class Neo4JConfiguration {
     public SessionFactory sessionFactory()
     {
         org.neo4j.ogm.config.Configuration neoCfg = new org.neo4j.ogm.config.Configuration();
-        neoCfg.driverConfiguration().setURI("http://neo4j:passwordd@localhost:7474");
+        neoCfg.driverConfiguration().setURI("http://neo4j:password@localhost:7474");
         return new SessionFactory(neoCfg, "com.github.mmolasy.graphFileSystem.graph");
     }
+
 
     @Bean
     public Neo4jTransactionManager transactionManager() {

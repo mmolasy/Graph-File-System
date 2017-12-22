@@ -43,10 +43,7 @@ public class DirectoryService {
     }
 
     public void destroyFileSystem(){
-        DirectoryNode directoryNode = directoryRepository.findRootDirectory();
-        if(directoryNode != null){
-            directoryRepository.delete(directoryNode);
-        }
+        directoryRepository.destroyFileSystem();
     }
 
     public DirectoryNode addDirectory(DirectoryRequestDTO directoryDTO) throws Exception {

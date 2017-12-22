@@ -61,13 +61,6 @@
             <artifactId>spring-data-neo4j</artifactId>
             <version>4.2.3.RELEASE</version>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/org.neo4j/neo4j-ogm-http-driver -->
-        <dependency>
-            <groupId>org.neo4j</groupId>
-            <artifactId>neo4j-ogm-http-driver</artifactId>
-            <version>3.0.2</version>
-        </dependency>
-
     </dependencies>
     <build>
         <plugins>

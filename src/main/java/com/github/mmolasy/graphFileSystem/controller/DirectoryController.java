@@ -23,6 +23,7 @@ public class DirectoryController {
 
         return modelAndView;
     }
+
     @GetMapping("directory")
     public ModelAndView getDirectoryTreeStartingFromRoot() throws Exception {
         ModelAndView modelAndView = new ModelAndView();
@@ -52,5 +53,15 @@ public class DirectoryController {
         }
         directoryService.removeDirectory(directoryRequestDTO.getId());
         return "redirect:/directory/"+directoryRequestDTO.getParentId();
+    }
+
+    @GetMapping("init")
+    public void init() {
+        directoryService.initializeFileSystem();
+    }
+
+    @GetMapping("destroy")
+    public void destroy() {
+        directoryService.destroyFileSystem();
     }
 }
