@@ -4,6 +4,7 @@ import com.github.mmolasy.graphFileSystem.graph.FileNode;
 import com.github.mmolasy.graphFileSystem.model.FileRequestDTO;
 import com.github.mmolasy.graphFileSystem.service.FileService;
 import lombok.Data;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -24,8 +25,8 @@ public class FileController {
         return modelAndView;
     }
 
-    @PutMapping("file")
-    public String addFile(@RequestBody FileRequestDTO fileRequestDTO) throws Exception {
+    @PostMapping(value = "file", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String addFile(FileRequestDTO fileRequestDTO) throws Exception {
         if(fileRequestDTO == null){
             throw new Exception("INVALID REQUEST");
         }

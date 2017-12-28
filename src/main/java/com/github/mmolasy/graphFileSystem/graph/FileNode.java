@@ -7,10 +7,10 @@ import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 
-@NodeEntity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@NodeEntity(label = "File")
 public class FileNode {
     @GraphId
     private Long id;
@@ -26,4 +26,6 @@ public class FileNode {
 
     @Property(name = "lastUpdateDate")
     private Long lastUpdateDate;
+
+    private String base64;
 }

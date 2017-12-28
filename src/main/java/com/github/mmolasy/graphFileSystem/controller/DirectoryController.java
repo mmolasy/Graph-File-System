@@ -2,8 +2,10 @@ package com.github.mmolasy.graphFileSystem.controller;
 
 import com.github.mmolasy.graphFileSystem.graph.DirectoryNode;
 import com.github.mmolasy.graphFileSystem.model.DirectoryRequestDTO;
+import com.github.mmolasy.graphFileSystem.model.FileRequestDTO;
 import com.github.mmolasy.graphFileSystem.service.DirectoryService;
 import lombok.Data;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -19,6 +21,8 @@ public class DirectoryController {
         ModelAndView modelAndView = new ModelAndView();
         DirectoryNode directoryNode = directoryService.getDirectoryById(id);
         modelAndView.addObject("directory", directoryNode);
+        modelAndView.addObject("directoryRequestDTO", new DirectoryRequestDTO());
+        modelAndView.addObject("fileRequestDTO", new FileRequestDTO());
         modelAndView.setViewName("directory");
 
         return modelAndView;
@@ -29,21 +33,21 @@ public class DirectoryController {
         ModelAndView modelAndView = new ModelAndView();
         DirectoryNode directoryNode = directoryService.getDirectoryRoot();
         modelAndView.addObject("directory", directoryNode);
+        modelAndView.addObject("directoryRequestDTO", new DirectoryRequestDTO());
+        modelAndView.addObject("fileRequestDTO", new FileRequestDTO());
         modelAndView.setViewName("directory");
 
         return modelAndView;
     }
 
-    @PutMapping("directory")
-    public ModelAndView addDirectory(@RequestBody DirectoryRequestDTO directoryRequestDTO) throws Exception {
+    @PostMapping(value = "directory", consumes = MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+    public String addDirectory(DirectoryRequestDTO directoryRequestDTO) throws Exception {
         if(directoryRequestDTO == null){
             throw new Exception("INVALID REQUEST");
         }
-        ModelAndView modelAndView = new ModelAndView();
         DirectoryNode newDirectory = directoryService.addDirectory(directoryRequestDTO);
-        modelAndView.addObject("directory", newDirectory);
-        modelAndView.setViewName("directory");
-        return modelAndView;
+
+        return "redirect:/directory/"+newDirectory.getId();
     }
 
     @DeleteMapping("directory")

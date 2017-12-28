@@ -8,12 +8,13 @@ import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
 import org.neo4j.ogm.annotation.Relationship;
 
+import java.util.HashSet;
 import java.util.Set;
 
-@NodeEntity
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
+@NodeEntity(label = "Directory")
 public class DirectoryNode {
     @GraphId
     private Long id;
@@ -30,9 +31,9 @@ public class DirectoryNode {
     @Property(name = "isRoot")
     private Boolean isRoot;
 
-    @Relationship(type = "subDirectory", direction = "INCOMING")
-    Set<DirectoryNode> subDirectories;
+    @Relationship(type = "subDirectory", direction = Relationship.OUTGOING)
+    private Set<DirectoryNode> subDirectories = new HashSet();
 
-    @Relationship(type = "containsFile", direction = "INCOMING")
-    Set<FileNode> files;
+    @Relationship(type = "containsFile", direction = Relationship.OUTGOING)
+    private Set<FileNode> files = new HashSet();
 }

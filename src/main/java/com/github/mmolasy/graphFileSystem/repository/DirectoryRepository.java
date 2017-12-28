@@ -1,23 +1,16 @@
 package com.github.mmolasy.graphFileSystem.repository;
 
 import com.github.mmolasy.graphFileSystem.graph.DirectoryNode;
+import org.springframework.data.neo4j.annotation.Depth;
 import org.springframework.data.neo4j.annotation.Query;
 import org.springframework.data.neo4j.repository.Neo4jRepository;
 import org.springframework.data.repository.query.Param;
 
 public interface DirectoryRepository extends Neo4jRepository<DirectoryNode, Long> {
 
-    @Query("MATCH (d :Directory) where id(d)={id} " +
-            "OPTIONAL MATCH (d)-[:subDirectory]->(d2 :Directory) " +
-            "OPTIONAL MATCH (d)-[:containsFile]->(f :File) " +
-            "return d, d2, f")
-    DirectoryNode findDirectoryById(@Param("id") Long id);
+    DirectoryNode findById(Long id);
 
-    @Query("MATCH (d :Directory) where d.isRoot=true " +
-            "OPTIONAL MATCH (d)-[:subDirectory]->(d2 :Directory) " +
-            "OPTIONAL MATCH (d)-[:containsFile]->(f :File) " +
-            "return d, d2, f")
-    DirectoryNode findRootDirectory();
+    DirectoryNode findByIsRootTrue();
 
     @Query("OPTIONAL MATCH (d :Directory) where d.isRoot=true " +
             "FOREACH ( x in CASE WHEN d IS NULL THEN [1] ELSE [0] END | " +
@@ -26,7 +19,7 @@ public interface DirectoryRepository extends Neo4jRepository<DirectoryNode, Long
             "RETURN d")
     DirectoryNode createRootDirectory();
 
-    @Query("MATCH (parent :Directory) where id(d)={parentId} " +
+    @Query("MATCH (parent :Directory) where id(parent)={parentId} " +
             "CREATE (parent)-[:subDirectory]->(child :Directory {creationDate: timestamp(), directoryName: {directoryName}, lastUpdateDate:timestamp(), isRoot:false}) " +
             "SET parent.lastUpdateDate=timestamp() " +
             "RETURN child")
