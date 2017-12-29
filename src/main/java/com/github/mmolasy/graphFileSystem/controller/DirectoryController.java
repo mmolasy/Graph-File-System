@@ -2,6 +2,7 @@ package com.github.mmolasy.graphFileSystem.controller;
 
 import com.github.mmolasy.graphFileSystem.graph.DirectoryNode;
 import com.github.mmolasy.graphFileSystem.model.DirectoryRequestDTO;
+import com.github.mmolasy.graphFileSystem.model.DirectoryResponseDTO;
 import com.github.mmolasy.graphFileSystem.model.FileRequestDTO;
 import com.github.mmolasy.graphFileSystem.service.DirectoryService;
 import lombok.Data;
@@ -20,7 +21,7 @@ public class DirectoryController {
     public ModelAndView getDirectoryTreeStartingFromDirectory(@PathVariable(value = "id") Long id) throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         DirectoryNode directoryNode = directoryService.getDirectoryById(id);
-        modelAndView.addObject("directory", directoryNode);
+        modelAndView.addObject("directory", DirectoryResponseDTO.mapNodeToDTO(directoryNode));
         modelAndView.addObject("directoryRequestDTO", new DirectoryRequestDTO());
         modelAndView.addObject("fileRequestDTO", new FileRequestDTO());
         modelAndView.setViewName("directory");
@@ -32,7 +33,7 @@ public class DirectoryController {
     public ModelAndView getDirectoryTreeStartingFromRoot() throws Exception {
         ModelAndView modelAndView = new ModelAndView();
         DirectoryNode directoryNode = directoryService.getDirectoryRoot();
-        modelAndView.addObject("directory", directoryNode);
+        modelAndView.addObject("directory", DirectoryResponseDTO.mapNodeToDTO(directoryNode));
         modelAndView.addObject("directoryRequestDTO", new DirectoryRequestDTO());
         modelAndView.addObject("fileRequestDTO", new FileRequestDTO());
         modelAndView.setViewName("directory");
@@ -50,7 +51,7 @@ public class DirectoryController {
         return "redirect:/directory/"+newDirectory.getId();
     }
 
-    @DeleteMapping("directory")
+    @PostMapping("directory/delete")
     public String deleteDirectory(@RequestBody DirectoryRequestDTO directoryRequestDTO) throws Exception {
         if(directoryRequestDTO == null){
             throw new Exception("INVALID REQUEST");

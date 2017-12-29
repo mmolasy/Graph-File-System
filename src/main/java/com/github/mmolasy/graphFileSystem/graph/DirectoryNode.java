@@ -1,8 +1,6 @@
 package com.github.mmolasy.graphFileSystem.graph;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.neo4j.ogm.annotation.GraphId;
 import org.neo4j.ogm.annotation.NodeEntity;
 import org.neo4j.ogm.annotation.Property;
@@ -15,6 +13,8 @@ import java.util.Set;
 @AllArgsConstructor
 @NoArgsConstructor
 @NodeEntity(label = "Directory")
+@EqualsAndHashCode(exclude = "parentDirectory")
+@ToString(exclude = "parentDirectory")
 public class DirectoryNode {
     @GraphId
     private Long id;
@@ -33,6 +33,9 @@ public class DirectoryNode {
 
     @Relationship(type = "subDirectory", direction = Relationship.OUTGOING)
     private Set<DirectoryNode> subDirectories = new HashSet();
+
+    @Relationship(type = "subDirectory", direction = Relationship.INCOMING)
+    private DirectoryNode parentDirectory;
 
     @Relationship(type = "containsFile", direction = Relationship.OUTGOING)
     private Set<FileNode> files = new HashSet();
