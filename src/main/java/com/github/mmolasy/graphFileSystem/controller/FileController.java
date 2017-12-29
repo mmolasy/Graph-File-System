@@ -5,6 +5,7 @@ import com.github.mmolasy.graphFileSystem.model.FileRequestDTO;
 import com.github.mmolasy.graphFileSystem.model.FileResponseDTO;
 import com.github.mmolasy.graphFileSystem.service.FileService;
 import lombok.Data;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,8 +33,8 @@ public class FileController {
         return "redirect:/directory/"+fileRequestDTO.getDirectoryId();
     }
 
-    @PostMapping("file/delete")
-    public String deleteFile(@RequestBody FileRequestDTO fileRequestDTO) throws Exception {
+    @PostMapping(value = "file/delete")
+    public String deleteFile(FileRequestDTO fileRequestDTO) throws Exception {
         if(fileRequestDTO == null){
             throw new Exception("INVALID REQUEST");
         }

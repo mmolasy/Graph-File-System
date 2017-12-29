@@ -25,10 +25,15 @@ public interface DirectoryRepository extends Neo4jRepository<DirectoryNode, Long
             "RETURN child")
     DirectoryNode createDirectory(@Param("parentId") Long parentId, @Param("directoryName") String directoryName);
 
-    //TODO
-    @Query("MATCH (d :Directory) where id(d)={id} and d.isRoot <> true" +
-            "DELETE d " +
-            "RETURN true")
+    @Query("MATCH (d :Directory) where id(d)={id} and d.isRoot <> true " +
+            "OPTIONAL MATCH (d)<-[s0:subDirectory]-(parent :Directory) " +
+            "OPTIONAL MATCH (d)-[f0:containsFile*]->(file0 :File) " +
+            "OPTIONAL MATCH (d)-[s:subDirectory*]->(child :Directory) " +
+            "OPTIONAL MATCH (child)-[f:containsFile*]->(file :File) " +
+            "FOREACH (rel IN f0| DELETE rel) " +
+            "FOREACH (rel IN f| DELETE rel) " +
+            "FOREACH (rel IN s| DELETE rel) " +
+            "DELETE s0, file0, file, child, d ")
     Boolean deleteDirectoryById(@Param("id") Long id);
 
     @Query("MATCH (n1)-[r]-(n2) " +

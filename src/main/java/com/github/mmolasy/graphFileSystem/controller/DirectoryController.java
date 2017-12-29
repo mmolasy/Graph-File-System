@@ -51,8 +51,8 @@ public class DirectoryController {
         return "redirect:/directory/"+newDirectory.getId();
     }
 
-    @PostMapping("directory/delete")
-    public String deleteDirectory(@RequestBody DirectoryRequestDTO directoryRequestDTO) throws Exception {
+    @PostMapping(value = "directory/delete")
+    public String deleteDirectory(DirectoryRequestDTO directoryRequestDTO) throws Exception {
         if(directoryRequestDTO == null){
             throw new Exception("INVALID REQUEST");
         }

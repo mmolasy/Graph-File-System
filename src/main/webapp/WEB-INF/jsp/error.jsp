@@ -6,6 +6,7 @@
 <html>
 <head></head>
 <body>
-File
+An error occured:<br/>
+${msg}
 </body>
 </html>

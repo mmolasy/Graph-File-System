@@ -14,7 +14,6 @@ public class DirectoryService {
 
     public DirectoryNode getDirectoryRoot() throws Exception {
         DirectoryNode directoryNode = directoryRepository.findByIsRootTrue();
-        System.out.println("dir "+directoryNode);
         if(directoryNode == null){
             throw new Exception("ROOT DIRECTORY DOES NOT EXISTS");
         }
@@ -38,7 +37,6 @@ public class DirectoryService {
             directoryNode.setCreationDate(System.currentTimeMillis());
             directoryNode.setIsRoot(true);
             directoryNode.setDirectoryName("root");
-
             directoryRepository.save(directoryNode);
         }
     }
@@ -56,8 +54,6 @@ public class DirectoryService {
     }
 
     public void removeDirectory(Long id) throws Exception {
-        if(!Boolean.TRUE.equals(directoryRepository.deleteDirectoryById(id))){
-            throw new Exception("UNABLE TO REMOVE DIRECTORY");
-        }
+        directoryRepository.deleteDirectoryById(id);
     }
 }

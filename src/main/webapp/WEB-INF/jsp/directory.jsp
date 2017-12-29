@@ -100,6 +100,7 @@
                         <td>
                             <form method="post" name="directoryRequestDTO" action="/directory/delete">
                                 <input name="id" value="${sub.id}" hidden />
+                                <input name="parentId" value="${directory.id}" hidden />
                                 <button type="submit" class="btn btn-danger">Delete</button>
                             </form>
                         </td>
@@ -130,6 +131,7 @@
                             <td>
                                 <form method="post" name="fileRequestDTO" action="/file/delete">
                                     <input name="id" value="${file.id}" hidden />
+                                    <input name="directoryId" value="${directory.id}" hidden />
                                     <button type="submit" class="btn btn-primary">Delete</button>
                                 </form>
                             </td>
