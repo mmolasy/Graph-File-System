@@ -33,7 +33,8 @@ public interface DirectoryRepository extends Neo4jRepository<DirectoryNode, Long
             "FOREACH (rel IN f0| DELETE rel) " +
             "FOREACH (rel IN f| DELETE rel) " +
             "FOREACH (rel IN s| DELETE rel) " +
-            "DELETE s0, file0, file, child, d ")
+            "DELETE s0, file0, file, child, d " +
+            "SET parent.lastUpdateDate = timestamp() ")
     Boolean deleteDirectoryById(@Param("id") Long id);
 
     @Query("MATCH (n1)-[r]-(n2) " +
